@@ -1,0 +1,8 @@
+node_modules
+workflow_item_view/node_modules
+.env
+code.tar.gz
+.yarn
+local-secure-storage.db.json
+pdf_demo
+.mappsrc

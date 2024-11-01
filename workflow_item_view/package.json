@@ -1,0 +1,57 @@
+{
+  "name": "monday-react-quickstart-app",
+  "version": "0.0.1",
+  "private": true,
+  "homepage": "/item_views/workflow",
+  "scripts": {
+    "start": "npm run stop && concurrently \"npm run server\" \"npm run expose\"",
+    "build": "react-scripts build && (cd build && zip -r build.zip * -x \\*.map)",
+    "expose": "mapps tunnel:create -p 3000",
+    "server": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "stop": "kill-port 3000 && kill-port 4049",
+    "postinstall": "patch-package",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org capable-koala --project monday-risk-register ./build && sentry-cli sourcemaps upload --org capable-koala --project monday-risk-register ./build"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
+    "@sentry/react": "^7.74.1",
+    "chart.js": "^4.4.1",
+    "mixpanel-browser": "^2.48.1",
+    "monday-sdk-js": "^0.4.0",
+    "monday-ui-react-core": "^2.107.0",
+    "patch-package": "^8.0.0",
+    "react-chartjs-2": "^5.2.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.7",
+    "@babel/preset-env": "^7.25.7",
+    "@babel/preset-react": "^7.25.7",
+    "@mondaydotcomorg/tunnel": "^0.4.1",
+    "@sentry/cli": "^2.21.2",
+    "concurrently": "^5.2.0",
+    "cross-port-killer": "^1.2.1",
+    "eslint-config-react-app": "^7.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "sass": "^1.54.8"
+  }
+}

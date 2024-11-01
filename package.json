@@ -1,0 +1,57 @@
+{
+  "name": "eurotas-qms",
+  "version": "0.0.1",
+  "license": "Proprietary",
+  "type": "module",
+  "engines": {
+    "node": "20.17.0"
+  },
+  "scripts": {
+    "start": "npm run server",
+    "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:expose\"",
+    "dev:server": "nodemon --inspect=8081 ./src/app.js",
+    "dev:expose": "mtunnel -p 8080",
+    "dev:stop": "kill-port 8080",
+    "server": "NODE_ENV=production node ./src/app.js",
+    "deploy-dev": "npm run build_all_views && mapps code:push -a 10145918",
+    "deploy-uat": "npm run build_all_views && mapps code:push -a 10149570",
+    "deploy-prod": "npm run build_all_views && mapps code:push -a 10150083",
+    "logs": "mapps code:logs",
+    "mapps:init": "mapps init",
+    "mapps-updated": "mapps -u",
+    "workflow_item:dev": "cd workflow_item_view && npm run start",
+    "workflow_item:build": "cd workflow_item_view && npm run build",
+    "audittrail:dev": "cd audittrail_item_view && npm run start",
+    "audittrail:build": "cd audittrail_item_view && npm run build",
+    "build_all_views": "npm run workflow_item:build && npm run audittrail:build"
+  },
+  "nodemonConfig": {
+    "watch": [
+      ".env",
+      "src/"
+    ]
+  },
+  "dependencies": {
+    "@mondaycom/apps-sdk": "^3.0.11",
+    "@sentry/node": "^8.30.0",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "cross-port-killer": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "handlebars": "^4.7.8",
+    "http-proxy-middleware": "^3.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "monday-sdk-js": "^0.5.5",
+    "node-fetch": "^3.3.2",
+    "simple-oauth2": "^5.1.0"
+  },
+  "devDependencies": {
+    "@mondaydotcomorg/tunnel": "^0.4.2",
+    "concurrently": "^9.0.1",
+    "debug": "^4.3.7",
+    "eslint": "^9.11.0",
+    "nodemon": "^3.1.7"
+  }
+}

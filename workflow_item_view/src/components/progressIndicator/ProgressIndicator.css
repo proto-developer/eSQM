@@ -1,0 +1,30 @@
+nav.progressBar {
+  ol {
+    padding-inline-start: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  ol li {
+    background-color: #eee;
+    border-radius: 4px;
+  }
+
+  li.past {
+    background-color: #b0f4b6;
+  }
+
+  li.future {
+  }
+
+  li.current {
+    background-color: #cce5ff;
+  }
+}
+
+body.dark-app-theme nav.progressBar,
+body.black-app-theme nav.progressBar {
+  ol li span {
+    color: #222;
+  }
+}

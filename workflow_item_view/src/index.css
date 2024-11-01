@@ -1,0 +1,10 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.progressBar ol {
+  display: flex;
+  flex-wrap: wrap; /* This enables wrapping */
+  column-gap: 4px;
+  row-gap: 14px; /* Add some spacing between items */
+}

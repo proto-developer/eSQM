@@ -1,0 +1,27 @@
+<h1>Item snapshot</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this}}
+      <tr>
+        <td>{{this.column.title}}</td>
+        <td>
+          {{#if (eq this.column.type "creation_log")}}
+            {{this.created_at}} by {{this.creator.name}}
+            {{else}}
+            {{#if this.text}}
+              {{this.text}}
+            {{else}}
+              &lt;empty&gt;
+            {{/if}}
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
