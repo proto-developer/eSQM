@@ -1,9 +1,9 @@
 import { auditStateMachine } from "./audit.js";
 import { auditFindingsStateMachine } from "./auditFinding.js";
+import { supplierStateMachine } from "./supplier.js";
 
 const BOARD_NAME_TO_STATEMACHINE = {
-  Audit: auditStateMachine,
-  "Audit Findings": auditFindingsStateMachine,
+  Supplier: supplierStateMachine,
 };
 
 const getWorkflowByName = (boardName) => {
@@ -13,6 +13,4 @@ const getWorkflowByName = (boardName) => {
   return BOARD_NAME_TO_STATEMACHINE[boardName];
 };
 
-export {
-  getWorkflowByName,
-};
+export { getWorkflowByName };
