@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.App {
+  overflow: auto;
+  max-width: 1000px;
+  margin: 16px 24px;
+}
+
+.App * {
+  box-sizing: border-box;
+}
+
+.alerts {
+  width: 500px;
+}
+
+.alerts-link{
+  padding-left: 7px;
+}
