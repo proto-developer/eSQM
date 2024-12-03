@@ -4,9 +4,9 @@
   "private": true,
   "homepage": "/item_views/workflow",
   "scripts": {
-    "start": "npm run stop && concurrently \"npm run server\" \"npm run expose\"",
+    "start": "npm run stop && npm run server",
     "build": "react-scripts build && (cd build && zip -r build.zip * -x \\*.map)",
-    "expose": "mapps tunnel:create -p 3000",
+    "expose": "ngrok http localhost:3000",
     "server": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
