@@ -19,9 +19,9 @@ dotenv.config();
  * @returns {string | undefined} The value of the secret, or `undefined` if the secret key is not found or its value is not set.
  */
 export const getSecret = (secretKey, options = {}) => {
-  const secret = process.env[secretKey];
+  // const secret = process.env[secretKey];
 
-  // const secret = secretManager.get(secretKey, options);
+  const secret = secretManager.get(secretKey, options);
   return secret;
 };
 
