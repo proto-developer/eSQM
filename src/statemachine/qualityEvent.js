@@ -22,9 +22,9 @@ export const qualityEventStates = {
 
 // --- DESIRED STATE FLOW ---
 const desiredStateFlow = [
-  supplierStates.OPENED,
-  supplierStates.CAPA_PLAN,
-  supplierStates.CLOSED_DONE,
+  qualityEventStates.OPENED,
+  qualityEventStates.CAPA_PLAN,
+  qualityEventStates.CLOSED_DONE,
 ];
 
 // --- QUALITY EVENT WORKFLOW ACTIONS ---
@@ -151,6 +151,7 @@ const qualityEventTransitions = {
 export const qualityEventStateMachine = new WorkflowStateMachine(
   qualityEventTransitions,
   ["item"],
+  "item.column_values.status__1.label",
   qualityEventActions,
   desiredStateFlow
 );

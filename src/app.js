@@ -17,9 +17,7 @@ app.use(jsonErrorMiddleware);
 app.use(securityHeadersMiddleware);
 
 const allowedOrigins = [
-  "https://7357-182-176-222-139.ngrok-free.app",
-  "https://9bcd-182-176-222-139.ngrok-free.app",
-  "https://d0f8-2a09-bac1-5b20-10-00-31-7f.ngrok-free.app",
+  "https://83fd-2a09-bac1-5b20-28-00-1f1-1cf.ngrok-free.app",
 ];
 
 const corsOptions = {
@@ -27,7 +25,11 @@ const corsOptions = {
     if (!origin) return callback(null, true);
 
     // Allow any subdomain of .monday.app
-    if (origin.endsWith(".monday.app") || allowedOrigins.includes(origin)) {
+    if (
+      origin.endsWith(".monday.app") ||
+      origin.endsWith(".ngrok-free.app") ||
+      allowedOrigins.includes(origin)
+    ) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));

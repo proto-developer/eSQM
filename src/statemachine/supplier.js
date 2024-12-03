@@ -233,12 +233,43 @@ const supplierTransitions = {
       newState: supplierStates.SUPPLIER_APPROVED,
     },
   },
+  [supplierStates.DISQUALIFIED]: {
+    [supplierActions.RETURN_TO_SUPPLIER_ASSESSMENT]: {
+      guards: [
+        hasRequiredFields(disqualifiedFields),
+        userAssignedInField([supplierRoleFields.supplierManager]),
+      ],
+      effects: [],
+      newState: supplierStates.SUPPLIER_ASSESSMENT,
+    },
+  },
+  [supplierStates.IN_ACTIVATED]: {
+    [supplierActions.RETURN_TO_SUPPLIER_APPROVED]: {
+      guards: [
+        hasRequiredFields(inActivatedFields),
+        userAssignedInField([supplierRoleFields.supplierManager]),
+      ],
+      effects: [],
+      newState: supplierStates.SUPPLIER_APPROVED,
+    },
+  },
+  [supplierStates.RESTRICTED]: {
+    [supplierActions.RETURN_TO_SUPPLIER_APPROVED]: {
+      guards: [
+        hasRequiredFields(restrictedFields),
+        userAssignedInField([supplierRoleFields.supplierManager]),
+      ],
+      effects: [],
+      newState: supplierStates.SUPPLIER_APPROVED,
+    },
+  },
 };
 
 // --- SUPPLIER WORKFLOW STATE MACHINE ---
 export const supplierStateMachine = new WorkflowStateMachine(
   supplierTransitions,
   ["item"],
+  "item.column_values.status__1.label",
   supplierActions,
   desiredStateFlow
 );

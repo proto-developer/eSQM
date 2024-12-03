@@ -10,7 +10,7 @@ const guessButtonType = (title, canPerformAction) => {
     "end",
     "approve",
   ];
-  const backWords = ["return"];
+  const backWords = ["return", "re-assessment"];
   const cancelWords = ["reject", "deny", "cancel"];
   const createWords = ["create", "add"];
   const eSignActions = [

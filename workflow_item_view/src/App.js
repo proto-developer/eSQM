@@ -58,23 +58,32 @@ class App extends React.Component {
     const context = res.data;
     // console.log("context!", context);
     this.setBodyTheme(context.theme);
-    this.setState({ context }, () => this.debouncedGetItemState());
+
+    // Only update state if context changes to avoid unnecessary re-renders
+    if (
+      context.itemId !== this.state.context.itemId ||
+      context.boardId !== this.state.context.boardId
+    ) {
+      this.setState({ context }, () => this.debouncedGetItemState());
+    }
   };
 
   setSessionToken = (res) => {
     // console.log("sessionToken!", res.data);
-    this.setState({ sessionToken: res.data }, () =>
-      this.debouncedGetItemState()
-    );
+    if (res.data !== this.state.sessionToken) {
+      this.setState({ sessionToken: res.data }, () =>
+        this.debouncedGetItemState()
+      );
+    }
   };
 
   debouncedGetItemState = debounce(() => {
     getItemState(this.state.context.itemId, this.state.context.boardId).then(
       (resp) => {
         // console.log("itemState!", resp);
-        this.setState({ itemState: resp, loading: false }, () =>
-          this.getWorkflowState()
-        );
+        this.setState({ itemState: resp, loading: false }, () => {
+          this.getWorkflowState();
+        });
       }
     );
   }, 1000);
@@ -87,6 +96,7 @@ class App extends React.Component {
       return;
     }
     const workflowState = await getItemWorkflowState(itemState, sessionToken);
+
     this.setState({ workflowState });
   };
 
@@ -165,6 +175,8 @@ class App extends React.Component {
       return null;
     }
 
+    console.log("workflowState", workflowState);
+
     return (
       <Flex
         direction={Flex.directions.COLUMN}
@@ -193,9 +205,9 @@ class App extends React.Component {
                 (action) =>
                   action.canPerformAction || !(action.hideIfNotAllowed || false)
               )
-              .map((action) => (
+              .map((action, index) => (
                 <ActionButton
-                  key={action.key}
+                  key={index}
                   action={action}
                   loadingAction={loadingAction}
                   onClick={this.startWorkflowAction}
