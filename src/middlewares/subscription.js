@@ -6,7 +6,7 @@ const fullAccessAccountIds = [
   "7271863", // Monday appsdemos account/
   "23360785", // Mohsin Acc
 ];
-const app_name = "LUCY eQMS";
+const app_name = "LUCY eSQM";
 
 const planIdToSeatCount = (planId) => {
   if (planId.indexOf("up_to_") === 0) {
