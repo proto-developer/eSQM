@@ -4,6 +4,7 @@ import { subscriptionMiddleware } from "../middlewares/subscription.js";
 import { mondayClientMiddleware } from "../middlewares/monday-client.js";
 import { sentryContextMiddleware } from "../middlewares/sentry-context.js";
 import { assignAutoNumber } from "../controllers/auto-number-controller.js";
+import { changeStatusAutomation } from "../controllers/status-automation.js";
 
 const router = express.Router();
 
@@ -14,6 +15,13 @@ router.post(
   sentryContextMiddleware,
   subscriptionMiddleware,
   assignAutoNumber
+);
+
+router.post(
+  "/monday/status_automation/execute",
+  authenticationMiddleware,
+  mondayClientMiddleware,
+  changeStatusAutomation
 );
 
 export default router;
