@@ -41,7 +41,6 @@ export const changeStatusAutomation = async (req, res) => {
       "status__1",
       "Closed - Done"
     );
-    console.log("Status changed to Closed - Done");
     return res.status(200).send({});
   } catch (err) {
     logger.error("Couldn't update the status of QE Item", TAG, { error: err });

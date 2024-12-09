@@ -175,8 +175,6 @@ class App extends React.Component {
       return null;
     }
 
-    console.log("workflowState", workflowState);
-
     return (
       <Flex
         direction={Flex.directions.COLUMN}

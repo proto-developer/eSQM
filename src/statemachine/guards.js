@@ -206,9 +206,6 @@ export const preventAssignedUserPerformingAction = (
     const usersOrTeamsA = getUsersOrTeams(context, fieldA);
     const usersOrTeamsB = getUsersOrTeams(context, fieldB);
 
-    console.log("usersOrTeamsA", usersOrTeamsA);
-    console.log("usersOrTeamsB", usersOrTeamsB);
-
     const overlap = usersOrTeamsA.some((id) => usersOrTeamsB.includes(id));
     if (overlap) {
       return {

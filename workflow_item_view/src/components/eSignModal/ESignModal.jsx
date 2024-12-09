@@ -24,7 +24,6 @@ const ESignatureForm = ({ action, onSubmit, sessionToken }) => {
 
   useEffect(() => {
     getPin(sessionToken).then((res) => {
-      console.log("Fetched pin", res);
       setPin(res.pin);
       setLoading(false);
     });
