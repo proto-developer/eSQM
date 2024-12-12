@@ -30,7 +30,7 @@ export const mondayConnectionCheckMiddleware = async (req, res, next) => {
       accountId,
     });
 
-    const referrer = req.headers.origin;
+    const referrer = req.headers.referer;
     const path = new URL(referrer).pathname;
 
     // Passes in the path as the state so we can redirect back to the original page after oauth
