@@ -30,15 +30,12 @@ export const mondayConnectionCheckMiddleware = async (req, res, next) => {
       accountId,
     });
 
-    const referrer = req.headers.referer;
+    const referrer = req.headers.origin;
     const path = new URL(referrer).pathname;
-
-    console.log("reffer path", path);
 
     // Passes in the path as the state so we can redirect back to the original page after oauth
     // This will reload the react app
     const authUrl = mondayAuthManager.getAuthorizationUrl(userId, path, slug);
-    console.log("authUrl", authUrl);
 
     return res.status(200).send({
       error: "oauth required",

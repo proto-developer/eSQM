@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {secretKeyAuthMiddleware} from "../middlewares/secret-key-auth.js";
+import { secretKeyAuthMiddleware } from "../middlewares/secret-key-auth.js";
 import {
   deleteAccountAuth,
   setAccountFeatureFlag,
@@ -8,8 +8,7 @@ import {
 const router = Router();
 router.use(secretKeyAuthMiddleware);
 
-router.delete("/auth/delete", deleteAccountAuth);
+router.post("/auth/delete", deleteAccountAuth);
 router.post("/flag/set", setAccountFeatureFlag);
-
 
 export default router;
