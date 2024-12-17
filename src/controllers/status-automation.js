@@ -30,6 +30,13 @@ export const changeStatusAutomation = async (req, res) => {
 
   // If all capaItemsStatuses are "Closed - Completed" or "Closed - Cancelled", then change the status of the item to "Closed - Completed"
   if (!allClosed) {
+    await changeColumnValue(
+      req.monday,
+      boardId,
+      itemId,
+      "status_1_mkk9tm24",
+      "Draft"
+    );
     return res.status(400).send({ message: "All CAPA Items are not closed" });
   }
 

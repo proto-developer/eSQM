@@ -101,7 +101,18 @@ export const performAction = async (
   const hasPin = !!pin;
   const pinValid = !!pin ? await esignValidatePin(client, user, pin) : false;
 
-  // logger.info("Performing action", TAG, {
+  logger.info("Performing action", TAG, {
+    action,
+    boardName,
+    itemId: item.id,
+    itemName: item.name,
+    itemState,
+    hasPin,
+    pinValid,
+    isCheckOnly: false,
+  });
+
+  // console.log("Performing action", TAG, {
   //   action,
   //   boardName,
   //   itemId: item.id,

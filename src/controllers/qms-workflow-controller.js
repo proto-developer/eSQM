@@ -89,7 +89,9 @@ export const performWorkflowAction = async (req, res) => {
   if (loadedItem.column_values.status__1.label != item.state) {
     return res.status(200).json({
       success: false,
-      error: "Item status has changed",
+      // error: "Item status has changed",
+      error:
+        "Item may have been updated. Please refresh the page and try again!",
     });
   }
 

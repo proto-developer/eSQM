@@ -1,16 +1,10 @@
 import { WorkflowStateMachine } from "./base.js";
-import {
-  sendNotification,
-  createLinkedBoardItem,
-  performWorkflowAction,
-} from "./effects.js";
+import { sendNotification, createLinkedBoardItem } from "./effects.js";
 import {
   hasRequiredFields,
   userAssignedInField,
-  requireSourceType,
+  allowSubmitIfStandalone,
 } from "./guards.js";
-import { ACTION_SOURCE } from "../constants/general.js";
-import { getConnectedItemColValues } from "../services/monday-service.js";
 
 // --- QUALITY EVENT WORKFLOW STATES ---
 export const qualityEventStates = {
@@ -41,7 +35,7 @@ const requiredFields = [
   "people__1",
   "description__1",
   "date__1",
-  "dropdown9__1",
+  "location_of_event_mkkaa015",
   "dropdown3__1",
   "dropdown30__1",
   "long_text2__1",
@@ -60,7 +54,7 @@ const createSupplierCAPA = () => {
     (context) => context.item.column_settings.connect_boards__1.boardIds[0],
     // Data for the new item (Finding)
     (context) => ({
-      name: "Supplier CAPA",
+      name: `Supplier CAPA for ${context.item?.name}`,
     }),
     // Allow extra supplier audits to be created (no skip condition)
     (context) => false,
@@ -102,6 +96,11 @@ const qualityEventTransitions = {
       ],
       effects: [
         // Send Notification to "Assigned To" Field
+        sendNotification(
+          (context) =>
+            `${context.item.name} submitted to "${qualityEventStates.CAPA_PLAN}"`,
+          (context) => context.item.column_values?.person.persons_and_teams
+        ),
       ],
       newState: qualityEventStates.CAPA_PLAN,
     },
@@ -133,14 +132,25 @@ const qualityEventTransitions = {
     },
     [qualityEventActions.CLOSE_EVENT]: {
       guards: [
-        userAssignedInField([
-          qualityEventRoleFields.creationLog,
-          qualityEventRoleFields.QA,
-        ]),
         hasRequiredFields(requiredFields),
+        allowSubmitIfStandalone(
+          (context) =>
+            context.item.column_values.connect_boards__1.linked_item_ids,
+          (context) =>
+            'Quality Event will be automatically submitted when all Supplier CAPAs are marked as "Closed - Completed" or "Closed - Cancelled".',
+          userAssignedInField([
+            qualityEventRoleFields.creationLog,
+            qualityEventRoleFields.QA,
+          ])
+        ),
       ],
       effects: [
         // Send Notification
+        sendNotification(
+          (context) =>
+            `${context.item.name} moved to "${qualityEventStates.CLOSED_DONE}"`,
+          (context) => context.item.column_values?.people__1.persons_and_teams
+        ),
       ],
       newState: qualityEventStates.CLOSED_DONE,
     },
