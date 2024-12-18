@@ -72,7 +72,7 @@ const createSupplierAudit = () => {
     (context) => context.item.column_settings.connect_boards__1.boardIds[0],
     // Data for the new item (Finding)
     (context) => ({
-      name: "Supplier Audit",
+      name: `Supplier Audit for ${context.item?.name}`,
     }),
     // Allow extra supplier audits to be created (no skip condition)
     (context) => false,
@@ -113,6 +113,80 @@ const createQualityEvent = () => {
     // Message for the user
     (context, itemId) => "Created and linked a new Quality Event Item."
   );
+};
+
+const guardRequireConnectedAuditBoard = async (context) => {
+  // Always allow if only checking, since we don't want to make API calls to serve
+  // the allowed actions.
+  if (context.isCheckOnly) {
+    return { success: true };
+  }
+
+  const boardId = context.item.board.id;
+  const mondayClient = context.client;
+
+  if (!boardId || !mondayClient) {
+    context.messages.push({
+      message: "Some unknown Error ocuured! Please Reload the app!",
+      type: "error",
+    });
+
+    return {
+      success: false,
+      reasons: [],
+    };
+  }
+
+  const query = `
+       query {
+          boards(ids:${boardId}) {
+            columns(ids: ["connect_boards__1"]) {
+              settings_str
+            }
+          }
+       }
+  `;
+
+  try {
+    const response = await mondayClient.api(query);
+
+    // Get the Ids of connected Audit Board
+    const connectedAuditBoardIds =
+      JSON.parse(response.data.boards[0].columns[0].settings_str).boardIds ||
+      [];
+
+    // Checking if User has connected some Audit Table or not
+    if (connectedAuditBoardIds.length < 1) {
+      const stepsToFollow = [
+        "Please install 'Lucie Audit' app, if not installed already.",
+        "If installed already, then please connect the 'Audit' board using the 'connect board column' named as 'Supplier Audits' at the end of 'Supplier' board.",
+      ];
+
+      context.messages.push({
+        message: `"Audits" board not connected with "Supplier" board!\n\nPlease follow the below steps to continue:\n\n- ${stepsToFollow.join(
+          "\n- "
+        )}`,
+        type: "error",
+      });
+
+      return {
+        success: false,
+        reasons: [],
+      };
+    }
+    return { success: true };
+  } catch (err) {
+    context.messages.push({
+      message:
+        "Some unknown Error ocuured! Please Reload the app or contact the admin!",
+      type: "error",
+    });
+
+    return {
+      success: false,
+      reasons: [],
+    };
+  }
 };
 
 // --- SUPPLIER WORKFLOW TRANSITIONS ---
@@ -185,6 +259,7 @@ const supplierTransitions = {
       guards: [
         hasRequiredFields(supplierAssessmentFields),
         userAssignedInField([supplierRoleFields.supplierManager]),
+        guardRequireConnectedAuditBoard,
       ],
       effects: [createSupplierAudit()],
       newState: supplierStates.SUPPLIER_ASSESSMENT,
