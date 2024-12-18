@@ -35,9 +35,9 @@ export const supplierActions = {
   CREATE_SUPPLIER_AUDIT: "Create Supplier Audit",
   RE_ASSESSMENT_REQUIRED: "Re-assessment Required",
   CREATE_QUALITY_EVENT: "Create Quality Event",
-  DISQUALIFIED: "Disqualified",
-  IN_ACTIVATED: "In-activated",
-  RESTRICTED: "Restricted",
+  DISQUALIFIED: "Disqualified Supplier",
+  IN_ACTIVATED: "In-activated Supplier",
+  RESTRICTED: "Restricted Supplier",
   RETURN_TO_SUPPLIER_ASSESSMENT: "Return to Supplier Assessment",
   RETURN_TO_SUPPLIER_APPROVED: "Return to Supplier Approved",
 };
