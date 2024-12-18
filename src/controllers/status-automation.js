@@ -1,4 +1,3 @@
-import { getBoardItemHighestNumber } from "../services/monday-count.js";
 import { changeColumnValue } from "../services/monday-service.js";
 import logger from "../helpers/logger.js";
 import { getMirrorColumnStatus } from "../services/mirrorCol-status.js";
