@@ -15,7 +15,7 @@ Sentry.init({
 */
 
 // Shown in the feedback modal
-const documentationLink = "https://www.euro-tas.com/";
+const documentationLink = "https://euro-tas.eu/";
 const supportEmail = "support@euro-tas.com";
 
 

@@ -6,7 +6,12 @@ import mondaySdk from "monday-sdk-js";
 const monday = mondaySdk();
 monday.setApiVersion("2023-10");
 
-const FeedbackModal = ({ show, setClosed, documentationLink, supportEmail}) => {
+const FeedbackModal = ({
+  show,
+  setClosed,
+  documentationLink,
+  supportEmail,
+}) => {
   const [version, setVersion] = useState(null);
   monday.listen(
     "context",
@@ -27,9 +32,9 @@ const FeedbackModal = ({ show, setClosed, documentationLink, supportEmail}) => {
     >
       <ModalContent>
         <Text element="p">
-          We're always looking to help you achieve the most with Eurotas
-          apps. Contact us for support or with ideas for improvements which
-          would improve your experience.
+          We're always looking to help you achieve the most with Eurotas apps.
+          Contact us for support or with ideas for improvements which would
+          improve your experience.
         </Text>
         <Text element="p">
           <a href={documentationLink} target="_blank" rel="noreferrer">
@@ -38,11 +43,7 @@ const FeedbackModal = ({ show, setClosed, documentationLink, supportEmail}) => {
         </Text>
         <Text element="p">
           Email us:{" "}
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href={`mailto:${supportEmail}`}
-          >
+          <a target="_blank" rel="noreferrer" href={`mailto:${supportEmail}`}>
             {supportEmail}
           </a>
         </Text>
@@ -64,18 +65,17 @@ const FeedbackButton = ({ setOpen }) => {
   );
 };
 
-export const FeedbackWidget = ({ documentationLink }) => {
+export const FeedbackWidget = ({ documentationLink, supportEmail }) => {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   return (
     <div style={{ position: "fixed", bottom: 25, right: 25 }}>
       <FeedbackModal
         show={feedbackOpen}
         setClosed={() => setFeedbackOpen(false)}
-      />
-      <FeedbackButton
-        setOpen={() => setFeedbackOpen(true)}
         documentationLink={documentationLink}
+        supportEmail={supportEmail}
       />
+      <FeedbackButton setOpen={() => setFeedbackOpen(true)} />
     </div>
   );
 };

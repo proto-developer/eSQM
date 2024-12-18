@@ -1,6 +1,21 @@
 import { Modal, ModalContent, Text } from "monday-ui-react-core";
+import mondaySdk from "monday-sdk-js";
+import { useState } from "react";
 
-const HelpModal = ({ show, setClosed }) => {
+const monday = mondaySdk();
+monday.setApiVersion("2023-10");
+
+const HelpModal = ({ show, setClosed, documentationLink, supportEmail }) => {
+  const [version, setVersion] = useState(null);
+  monday.listen(
+    "context",
+    (res) => {
+      const version = res.data?.appVersion?.versionData;
+      setVersion(`${version.major}.${version.minor}.${version.patch}`);
+    },
+    []
+  );
+
   return (
     <Modal
       show={show}
@@ -16,21 +31,17 @@ const HelpModal = ({ show, setClosed }) => {
           improve your experience.
         </Text>
         <Text element="p">
-          <a href="https://www.google.com" target="_blank" rel="noreferrer">
+          <a href={documentationLink} target="_blank" rel="noreferrer">
             Install instructions
           </a>
         </Text>
         <Text element="p">
           Email us:{" "}
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href={`mailto:developer@protogroup.co`}
-          >
-            developer@protogroup.co
+          <a target="_blank" rel="noreferrer" href={`mailto:${supportEmail}`}>
+            {supportEmail}
           </a>
         </Text>
-        <Text element="p">Version 1.25.0</Text>
+        <Text element="p">Version {version ? `v${version}` : "unknown"}</Text>
       </ModalContent>
     </Modal>
   );
