@@ -189,6 +189,46 @@ const guardRequireConnectedAuditBoard = async (context) => {
   }
 };
 
+const guardCheckForConnectedAudits = async (context) => {
+  // Always allow if only checking, since we don't want to make API calls to serve
+  // the allowed actions.
+  if (context.isCheckOnly) {
+    return { success: true };
+  }
+
+  const boardId = context.item.board.id;
+  const mondayClient = context.client;
+
+  if (!boardId || !mondayClient) {
+    context.messages.push({
+      message: "Some unknown Error ocuured! Please Reload the app!",
+      type: "error",
+    });
+
+    return {
+      success: false,
+      reasons: [],
+    };
+  }
+
+  const auditIds = context.item.column_values.connect_boards__1.linked_item_ids;
+
+  // Checking if User Item has Audit Childs
+  if (auditIds.length < 1) {
+    return { success: true };
+  }
+  context.messages.push({
+    message:
+      "Once all the Audits are closed (either Done or Cancelled), this action will be triggered automatically!",
+    type: "error",
+  });
+
+  return {
+    success: false,
+    reasons: [],
+  };
+};
+
 // --- SUPPLIER WORKFLOW TRANSITIONS ---
 const supplierTransitions = {
   [supplierStates.DRAFT]: {
@@ -251,6 +291,7 @@ const supplierTransitions = {
       guards: [
         hasRequiredFields(supplierAssessmentFields),
         userAssignedInField([supplierRoleFields.supplierManager]),
+        guardCheckForConnectedAudits,
       ],
       effects: [],
       newState: supplierStates.SUPPLIER_APPROVED,
