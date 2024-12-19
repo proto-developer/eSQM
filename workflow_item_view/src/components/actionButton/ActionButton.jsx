@@ -18,8 +18,6 @@ const guessButtonType = (title, canPerformAction) => {
 
   const titleLower = title.toLowerCase();
 
-  console.log("titleLower", titleLower);
-
   if (
     cancelWords.some((word) => titleLower.includes(word)) &&
     eSignActions.some((word) => titleLower === word)
