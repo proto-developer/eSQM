@@ -246,48 +246,48 @@ const capaTransitions = {
         ),
       ],
       effects: [
-        // createLinkedBoardItem(
-        //   // Find the boardId for the effectiveness check from the linked column settings
-        //   (context) =>
-        //     context.item.column_settings.effectiveness_checks.boardIds[0],
-        //   // Data for the new item
-        //   (context) => ({
-        //     name:
-        //       context.item.column_values?.ec_desc?.text ||
-        //       `EC for ${context.item.name}`,
-        //     qa_approvers: {
-        //       personsAndTeams:
-        //         context.item.column_values.qa_approvers?.persons_and_teams ||
-        //         [],
-        //     },
-        //     person: {
-        //       personsAndTeams:
-        //         context.item.column_values.person?.persons_and_teams || [],
-        //     },
-        //     due_date: context.item.column_values?.review_date?.text,
-        //     ec_plan: context.item.column_values?.ec_plan_1?.text,
-        //   }),
-        //   // Skip condition - if already linked to a EC, or an EC is not needed
-        //   (context) =>
-        //     !!context.item.column_values?.effectiveness_checks?.linked_item_ids
-        //       ?.length ||
-        //     !(
-        //       context.item.column_values?.requires_ec?.text.toLowerCase() ===
-        //       "yes"
-        //     ),
-        //   // Set the ID in the array of linked ECs
-        //   (context, itemId) => {
-        //     context.updates.effectiveness_checks = { item_ids: [itemId] };
-        //   },
-        //   // Set a message
-        //   (context, itemId) =>
-        //     `Created and linked a new Effectiveness Check "EC for ${context.item.name}"`
-        // ),
-        // performWorkflowAction(
-        //   (context) => context.updates?.effectiveness_checks?.item_ids || [],
-        //   (context) => context.user,
-        //   effectivenessCheckActions.SUBMIT
-        // ),
+        createLinkedBoardItem(
+          // Find the boardId for the effectiveness check from the linked column settings
+          (context) =>
+            context.item.column_settings.effectiveness_checks.boardIds[0],
+          // Data for the new item
+          (context) => ({
+            name:
+              context.item.column_values?.ec_desc?.text ||
+              `EC for ${context.item.name}`,
+            qa_approvers: {
+              personsAndTeams:
+                context.item.column_values.qa_approvers?.persons_and_teams ||
+                [],
+            },
+            person: {
+              personsAndTeams:
+                context.item.column_values.person?.persons_and_teams || [],
+            },
+            due_date: context.item.column_values?.review_date?.text,
+            ec_plan: context.item.column_values?.ec_plan_1?.text,
+          }),
+          // Skip condition - if already linked to a EC, or an EC is not needed
+          (context) =>
+            !!context.item.column_values?.effectiveness_checks?.linked_item_ids
+              ?.length ||
+            !(
+              context.item.column_values?.requires_ec?.text.toLowerCase() ===
+              "yes"
+            ),
+          // Set the ID in the array of linked ECs
+          (context, itemId) => {
+            context.updates.effectiveness_checks = { item_ids: [itemId] };
+          },
+          // Set a message
+          (context, itemId) =>
+            `Created and linked a new Effectiveness Check "EC for ${context.item.name}"`
+        ),
+        performWorkflowAction(
+          (context) => context.updates?.effectiveness_checks?.item_ids || [],
+          (context) => context.user,
+          effectivenessCheckActions.SUBMIT
+        ),
         closeQualityEventOnLastCAPAClosing,
       ],
       newState: capaStates.CLOSED_DONE,

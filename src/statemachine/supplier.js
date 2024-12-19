@@ -257,7 +257,7 @@ const supplierTransitions = {
     },
     [supplierActions.CREATE_SUPPLIER_AUDIT]: {
       guards: [
-        hasRequiredFields(supplierAssessmentFields),
+        hasRequiredFields(onBoardingFields),
         userAssignedInField([supplierRoleFields.supplierManager]),
         guardRequireConnectedAuditBoard,
       ],
@@ -276,6 +276,7 @@ const supplierTransitions = {
       newState: supplierStates.SUPPLIER_ASSESSMENT,
     },
     [supplierActions.DISQUALIFIED]: {
+      requiresESignature: true,
       guards: [
         hasRequiredFields(disqualifiedFields),
         userAssignedInField([supplierRoleFields.supplierManager]),
@@ -284,6 +285,7 @@ const supplierTransitions = {
       newState: supplierStates.DISQUALIFIED,
     },
     [supplierActions.IN_ACTIVATED]: {
+      requiresESignature: true,
       guards: [
         hasRequiredFields(inActivatedFields),
         userAssignedInField([supplierRoleFields.supplierManager]),
@@ -292,6 +294,7 @@ const supplierTransitions = {
       newState: supplierStates.IN_ACTIVATED,
     },
     [supplierActions.RESTRICTED]: {
+      requiresESignature: true,
       guards: [
         hasRequiredFields(restrictedFields),
         userAssignedInField([supplierRoleFields.supplierManager]),

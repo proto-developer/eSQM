@@ -2,26 +2,34 @@ import { Button, Tooltip } from "monday-ui-react-core";
 import { AddSmall, Form } from "monday-ui-react-core/icons";
 
 const guessButtonType = (title, canPerformAction) => {
-  const fowardWords = [
-    "submit",
-    "complete",
-    "accept",
-    "start",
-    "end",
-    "approve",
-  ];
+  const fowardWords = ["submit", "complete", "close", "capa approved"];
   const backWords = ["return", "re-assessment"];
   const cancelWords = ["reject", "deny", "cancel"];
   const createWords = ["create", "add"];
   const eSignActions = [
-    "audit plan completed",
-    "audit plan accepted",
-    "audit report completed",
-    "response submitted",
-    "approved",
+    "disqualified supplier",
+    "in-activated supplier",
+    "restricted supplier",
+    "capa completed",
+    "ec completed",
+    "cancel",
+    "ec approved",
   ];
 
   const titleLower = title.toLowerCase();
+
+  console.log("titleLower", titleLower);
+
+  if (
+    cancelWords.some((word) => titleLower.includes(word)) &&
+    eSignActions.some((word) => titleLower === word)
+  ) {
+    return {
+      kind: Button.kinds.PRIMARY,
+      leftIcon: Form,
+      color: Button.colors.NEGATIVE,
+    };
+  }
 
   if (backWords.some((word) => titleLower.includes(word)) && canPerformAction) {
     return {

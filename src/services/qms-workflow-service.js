@@ -75,7 +75,7 @@ export const canPerformAction = async (
       "item",
       item.id,
       "with state",
-      item.column_values.status.label,
+      item.column_values.status__1.label,
       "reasons",
       result.reasons
     );
