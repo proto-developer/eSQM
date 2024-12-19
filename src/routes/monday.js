@@ -26,11 +26,12 @@ router.post(
   calculateNextAuditDate
 );
 
-// router.post(
-//   "/monday/status_automation/execute",
-//   authenticationMiddleware,
-//   mondayClientMiddleware,
-//   changeStatusAutomation
-// );
+router.post(
+  "/monday/status_automation/execute",
+  authenticationMiddleware,
+  mondayClientMiddleware,
+  subscriptionMiddleware,
+  changeStatusAutomation
+);
 
 export default router;

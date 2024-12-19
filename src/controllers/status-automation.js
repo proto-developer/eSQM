@@ -5,9 +5,9 @@ import { getMirrorColumnStatus } from "../services/mirrorCol-status.js";
 const TAG = "status_change_automation_controller";
 
 export const changeStatusAutomation = async (req, res) => {
-  const { accountId, shortLivedToken } = req.session;
+  const { accountId } = req.session;
   const { payload } = req.body;
-  logger.info("Executing assignAutoNumber action", TAG, { accountId });
+  logger.info("Executing changeStatusAutomation action", TAG, { accountId });
 
   const { inputFields } = payload;
   const { boardId, itemId } = inputFields;
@@ -19,8 +19,7 @@ export const changeStatusAutomation = async (req, res) => {
 
     //   Check if all capaItemsStatuses are "Closed - Completed" or "Closed - Cancelled"
     allClosed = capaItemsStatuses.every(
-      (status) =>
-        status === "Closed - Completed" || status === "Closed - Cancelled"
+      (status) => status === "Closed - Done" || status === "Closed - Cancelled"
     );
   } catch (err) {
     logger.error("Couldn't find Mirror Col's Statuses", TAG, { error: err });
@@ -33,10 +32,10 @@ export const changeStatusAutomation = async (req, res) => {
       req.monday,
       boardId,
       itemId,
-      "status_1_mkk9tm24",
-      "Draft"
+      "audits_complete_trigger",
+      "Default"
     );
-    return res.status(400).send({ message: "All CAPA Items are not closed" });
+    return res.status(400).send({ message: "All Audits are not closed yet!" });
   }
 
   try {
@@ -45,11 +44,23 @@ export const changeStatusAutomation = async (req, res) => {
       boardId,
       itemId,
       "status__1",
-      "Closed - Done"
+      "Supplier Approved"
     );
-    return res.status(200).send({});
+
+    await changeColumnValue(
+      req.monday,
+      boardId,
+      itemId,
+      "audits_complete_trigger",
+      "Default"
+    );
+    return res.status(200).send({
+      message: "Status of Supplier Item has been updated to Supplier Approved",
+    });
   } catch (err) {
-    logger.error("Couldn't update the status of QE Item", TAG, { error: err });
+    logger.error("Couldn't update the status of Supplier Item", TAG, {
+      error: err,
+    });
     return res.status(500).send({ message: "internal server error" });
   }
 };
