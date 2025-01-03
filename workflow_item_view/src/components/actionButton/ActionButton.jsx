@@ -12,7 +12,7 @@ const guessButtonType = (title, canPerformAction) => {
     "restricted supplier",
     "capa completed",
     "ec completed",
-    "cancel",
+    "cancel ec",
     "ec approved",
   ];
 
@@ -62,8 +62,22 @@ const guessButtonType = (title, canPerformAction) => {
 
 export const ActionButton = ({ action, loadingAction, onClick }) => {
   let message = " "; // Empty string to avoid tooltip not showing
-  let title = `Moves item to "${action.newState}"`;
-  if (!action.canPerformAction) {
+  let title = "";
+  const isCreateChildBtn = action?.title?.toLowerCase().includes("create");
+  const childName = action?.title?.split(" ").slice(1).join(" ");
+
+  if (isCreateChildBtn && action.canPerformAction) {
+    title = `Creates a new "${childName}" item`;
+  } else if (isCreateChildBtn && !action.canPerformAction) {
+    title = `Cannot create new "${childName}" item. Issues:`;
+    message = (
+      <ul>
+        {action.unavailableReasons.map((reason, i) => (
+          <li key={i}>{reason}</li>
+        ))}
+      </ul>
+    );
+  } else if (!action.canPerformAction) {
     title = `Cannot move item to "${action.newState}". Issues:`;
     message = (
       <ul>
@@ -72,6 +86,8 @@ export const ActionButton = ({ action, loadingAction, onClick }) => {
         ))}
       </ul>
     );
+  } else {
+    title = `Moves item to "${action.newState}"`;
   }
 
   return (

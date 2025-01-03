@@ -7,7 +7,7 @@ const BOARD_NAME_TO_STATEMACHINE = {
   Supplier: supplierStateMachine,
   "Quality Event": qualityEventStateMachine,
   "Effectiveness Checks": effectivenessCheckStateMachine,
-  "Supplier CAPAs": capaStateMachine,
+  CAPA: capaStateMachine,
 };
 
 const getWorkflowByName = (boardName) => {

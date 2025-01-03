@@ -1,8 +1,5 @@
 import { WorkflowStateMachine } from "./base.js";
-import {
-  sendNotification,
-  addItemToContext,
-} from "./effects.js";
+import { sendNotification, addItemToContext } from "./effects.js";
 import {
   hasRequiredFields,
   userAssignedInField,
@@ -27,17 +24,14 @@ const desiredStateFlow = [
 ];
 
 export const effectivenessCheckActions = {
-  CANCEL: "Cancel",
+  CANCEL: "Cancel EC",
   SUBMIT: "Submit",
   EC_COMPLETED: "EC completed",
   REJECT_TO_IN_PROGRESS: "Reject to EC in Progress",
   APPROVE: "EC Approved",
 };
 
-const fieldsForInProgress = [
-  "person",
-  "ec_plan",
-];
+const fieldsForInProgress = ["person", "ec_plan"];
 
 const fieldsForPendingApproval = [
   ...fieldsForInProgress,
@@ -110,7 +104,10 @@ const effectivenessCheckTransitions = {
       guards: [
         hasRequiredFields(fieldsForClosedDone),
         userAssignedInField([roleFields.qa_approver]),
-        preventAssignedUserPerformingAction(roleFields.implementor, roleFields.qa_approver),
+        preventAssignedUserPerformingAction(
+          roleFields.implementor,
+          roleFields.qa_approver
+        ),
       ],
       effects: [],
       newState: effectivenessCheckStates.CLOSED_DONE,

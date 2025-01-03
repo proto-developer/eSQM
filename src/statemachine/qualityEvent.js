@@ -54,7 +54,10 @@ const createSupplierCAPA = () => {
     (context) => context.item.column_settings.connect_boards__1.boardIds[0],
     // Data for the new item (Finding)
     (context) => ({
-      name: `Supplier CAPA for ${context.item?.name}`,
+      name: `CAPA ${
+        context?.item?.column_values?.connect_boards__1?.linked_item_ids
+          ?.length + 1
+      } for ${context.item?.name}`,
     }),
     // Allow extra supplier audits to be created (no skip condition)
     (context) => false,
@@ -99,7 +102,7 @@ const qualityEventTransitions = {
         sendNotification(
           (context) =>
             `${context.item.name} submitted to "${qualityEventStates.CAPA_PLAN}"`,
-          (context) => context.item.column_values?.person.persons_and_teams
+          (context) => context.item.column_values?.people__1.persons_and_teams
         ),
       ],
       newState: qualityEventStates.CAPA_PLAN,

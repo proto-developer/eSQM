@@ -54,10 +54,10 @@ const onBoardingFields = [
 ];
 const supplierAssessmentFields = [...onBoardingFields, "dropdown9__1"];
 const supplierApprovedFields = [...supplierAssessmentFields];
-const inActivatedFields = [...onBoardingFields];
-const disqualifiedFields = [...onBoardingFields];
-const restrictedFields = [...onBoardingFields];
-const closedCancelledFields = [...onBoardingFields];
+const inActivatedFields = [...supplierApprovedFields];
+const disqualifiedFields = [...supplierApprovedFields];
+const restrictedFields = [...supplierApprovedFields];
+// const closedCancelledFields = [...onBoardingFields];
 
 // --- ROLE FIELDS FOR ACCESS TO PERFORM DIFFERENT ACTIONS ---
 const supplierRoleFields = {
@@ -72,7 +72,10 @@ const createSupplierAudit = () => {
     (context) => context.item.column_settings.connect_boards__1.boardIds[0],
     // Data for the new item (Finding)
     (context) => ({
-      name: `Supplier Audit for ${context.item?.name}`,
+      name: `Supplier Audit ${
+        context?.item?.column_values?.connect_boards__1?.linked_item_ids
+          ?.length + 1
+      } for ${context.item?.name}`,
     }),
     // Allow extra supplier audits to be created (no skip condition)
     (context) => false,
@@ -95,7 +98,11 @@ const createQualityEvent = () => {
     (context) => context.item.column_settings.connect_boards5__1.boardIds[0],
     // Data for the new item (Finding)
     (context) => ({
-      name: context.item?.name || "Supplier QE",
+      name:
+        `Quality Event ${
+          context?.item?.column_values?.connect_boards5__1?.linked_item_ids
+            ?.length + 1
+        } for ${context.item?.name}` || "Quality Event Item",
       people__1: context.item.column_values?.people__1.persons_and_teams
         .map((person) => person.id)
         .join(", "),
@@ -345,7 +352,7 @@ const supplierTransitions = {
     },
     [supplierActions.CREATE_QUALITY_EVENT]: {
       guards: [
-        hasRequiredFields(supplierApprovedFields),
+        hasRequiredFields(onBoardingFields),
         userAssignedInField([supplierRoleFields.supplierManager]),
       ],
       effects: [createQualityEvent()],
