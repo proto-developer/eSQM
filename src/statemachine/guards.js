@@ -200,7 +200,7 @@ export const preventAssignedUserPerformingAction = (
   };
 
   const defaultMessageGetter = (context) =>
-    'There is overlap between the people in the "Auditee" and the "Lead Auditor" columns. For compliance reasons, one must not  approve their own work.';
+    'There is overlap between the people in the "Assigned To" and the "QA Approvers" columns. For compliance reasons, one must not QA approve their own work.';
 
   return (context) => {
     const usersOrTeamsA = getUsersOrTeams(context, fieldA);
