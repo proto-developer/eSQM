@@ -58,6 +58,11 @@ const createSupplierCAPA = () => {
         context?.item?.column_values?.connect_boards__1?.linked_item_ids
           ?.length + 1
       } for ${context.item?.name}`,
+
+      person: {
+        personsAndTeams:
+          context.item.column_values.people__1?.persons_and_teams || [],
+      },
     }),
     // Allow extra supplier audits to be created (no skip condition)
     (context) => false,
