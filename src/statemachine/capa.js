@@ -185,6 +185,32 @@ export const closeQualityEventOnLastCAPAClosing = async (context) => {
   return { success: true };
 };
 
+const guardCheckCAPADescription = (context) => {
+  if (context.isCheckOnly) {
+    return { success: true };
+  }
+
+  const descriptionRequired =
+    context.item.column_values?.requires_ec?.text.toLowerCase() === "yes";
+
+  if (!descriptionRequired) {
+    return { success: true };
+  }
+
+  const descriptionText = context.item.column_values?.ec_plan_1?.text;
+
+  if (descriptionText) {
+    return { success: true };
+  }
+
+  context.messages.push({
+    message: `As "EFfectiveness Check" is required, please add a "Effectiveness Plan" before approving the CAPA.`,
+    type: "error",
+  });
+
+  return { success: false, reasons: ["Effectiveness Plan is required!"] };
+};
+
 const capaTransitions = {
   [capaStates.DRAFT]: {
     [capaActions.CANCEL]: {
@@ -244,6 +270,7 @@ const capaTransitions = {
           roleFields.implementor,
           roleFields.qa_approver
         ),
+        guardCheckCAPADescription,
       ],
       effects: [
         createLinkedBoardItem(
@@ -253,8 +280,8 @@ const capaTransitions = {
           // Data for the new item
           (context) => ({
             name:
-              context.item.column_values?.ec_desc?.text ||
-              `EC for ${context.item.name}`,
+              `EC from ${context.item.column_values.locked_id.text}` ||
+              "Effectiveness Check",
             qa_approvers: {
               personsAndTeams:
                 context.item.column_values.qa_approvers?.persons_and_teams ||
@@ -265,6 +292,7 @@ const capaTransitions = {
                 context.item.column_values.person?.persons_and_teams || [],
             },
             due_date: context.item.column_values?.review_date?.text,
+            // context.item.column_values?.ec_desc?.text
             ec_plan: context.item.column_values?.ec_plan_1?.text,
           }),
           // Skip condition - if already linked to a EC, or an EC is not needed
@@ -281,7 +309,7 @@ const capaTransitions = {
           },
           // Set a message
           (context, itemId) =>
-            `Created and linked a new Effectiveness Check "EC for ${context.item.name}"`
+            `Created and linked a new Effectiveness Check, "EC from ${context.item.column_values.locked_id.text}"`
         ),
         performWorkflowAction(
           (context) => context.updates?.effectiveness_checks?.item_ids || [],

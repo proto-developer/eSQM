@@ -54,10 +54,11 @@ const createSupplierCAPA = () => {
     (context) => context.item.column_settings.connect_boards__1.boardIds[0],
     // Data for the new item (Finding)
     (context) => ({
-      name: `CAPA ${
-        context?.item?.column_values?.connect_boards__1?.linked_item_ids
-          ?.length + 1
-      } for ${context.item?.name}`,
+      name:
+        `CAPA${
+          context?.item?.column_values?.connect_boards__1?.linked_item_ids
+            ?.length + 1
+        } from ${context.item?.column_values?.text__1?.text}` || "CAPA Item",
 
       person: {
         personsAndTeams:
@@ -75,7 +76,11 @@ const createSupplierCAPA = () => {
       };
     },
     // Message for the user
-    (context, itemId) => "Created and linked a new Supplier CAPA Item."
+    (context, itemId) =>
+      `Created and linked a new Supplier CAPA Item, "CAPA${
+        context?.item?.column_values?.connect_boards__1?.linked_item_ids
+          ?.length + 1
+      } from ${context.item?.column_values?.text__1?.text}"`
   );
 };
 

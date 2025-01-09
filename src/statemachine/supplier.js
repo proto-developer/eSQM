@@ -72,10 +72,12 @@ const createSupplierAudit = () => {
     (context) => context.item.column_settings.connect_boards__1.boardIds[0],
     // Data for the new item (Finding)
     (context) => ({
-      name: `Supplier Audit ${
-        context?.item?.column_values?.connect_boards__1?.linked_item_ids
-          ?.length + 1
-      } for ${context.item?.name}`,
+      name:
+        `Supplier Audit ${
+          context?.item?.column_values?.connect_boards__1?.linked_item_ids
+            ?.length + 1
+        } from ${context.item?.column_values?.text__1?.text}` ||
+        "Supplier Audit",
     }),
     // Allow extra supplier audits to be created (no skip condition)
     (context) => false,
@@ -88,7 +90,11 @@ const createSupplierAudit = () => {
       };
     },
     // Message for the user
-    (context, itemId) => "Created and linked a new Supplier Audit Item."
+    (context, itemId) =>
+      `Created and linked a new Supplier Audit Item,"Supplier Audit ${
+        context?.item?.column_values?.connect_boards__1?.linked_item_ids
+          ?.length + 1
+      } from ${context.item?.column_values?.text__1?.text}"`
   );
 };
 
@@ -99,10 +105,11 @@ const createQualityEvent = () => {
     // Data for the new item (Finding)
     (context) => ({
       name:
-        `Quality Event ${
+        `QE${
           context?.item?.column_values?.connect_boards5__1?.linked_item_ids
             ?.length + 1
-        } for ${context.item?.name}` || "Quality Event Item",
+        } from ${context.item?.column_values?.text__1?.text}` ||
+        "Quality Event Item",
       people__1: context.item.column_values?.people__1.persons_and_teams
         .map((person) => person.id)
         .join(", "),
@@ -118,7 +125,11 @@ const createQualityEvent = () => {
       };
     },
     // Message for the user
-    (context, itemId) => "Created and linked a new Quality Event Item."
+    (context, itemId) =>
+      `Created and linked a new Quality Event, "QE${
+        context?.item?.column_values?.connect_boards5__1?.linked_item_ids
+          ?.length + 1
+      } from ${context.item?.column_values?.text__1?.text}"`
   );
 };
 

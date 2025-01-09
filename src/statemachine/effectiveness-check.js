@@ -57,7 +57,11 @@ const effectivenessCheckTransitions = {
             context.item.column_values.link_to_capas__1.linked_item_ids,
           (context) =>
             'Effectiveness Check will be automatically submitted when the linked CAPA is completed"',
-          userAssignedInField([roleFields.originator, roleFields.implementor])
+          userAssignedInField([
+            roleFields.originator,
+            roleFields.implementor,
+            roleFields.qa_approver,
+          ])
         ),
       ],
       effects: [
