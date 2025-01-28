@@ -214,9 +214,7 @@ const guardCheckCAPADescription = (context) => {
 const capaTransitions = {
   [capaStates.DRAFT]: {
     [capaActions.CANCEL]: {
-      guards: [
-        userAssignedInField([roleFields.originator, roleFields.implementor]),
-      ],
+      guards: [userAssignedInField([roleFields.originator])],
       effects: [],
       newState: capaStates.CLOSED_CANCELLED,
     },
@@ -230,7 +228,7 @@ const capaTransitions = {
         //     'CAPA will be automatically submitted when parent is marked as "CAPA Plan completed"',
         //   userAssignedInField([roleFields.originator, roleFields.implementor])
         // ),
-        userAssignedInField([roleFields.originator, roleFields.implementor]),
+        userAssignedInField([roleFields.originator]),
       ],
       effects: [
         sendNotification(
