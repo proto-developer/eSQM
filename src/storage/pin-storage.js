@@ -1,9 +1,8 @@
-import { BaseStorage } from "./base-storage.js";
-import logger from "../helpers/logger.js";
+import BaseSecureStorage from "./base-secure-storage.js";
 
 const TAG = "base-indexed-storage";
 
-export class PinStorage extends BaseStorage {
+export class PinStorage extends BaseSecureStorage {
   constructor(token) {
     super(token);
     this.prefix = "pin:";
