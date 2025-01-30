@@ -60,10 +60,10 @@ const createSupplierCAPA = () => {
             ?.length + 1
         } from ${context.item?.column_values?.text__1?.text}` || "CAPA Item",
 
-      person: {
-        personsAndTeams:
-          context.item.column_values.people__1?.persons_and_teams || [],
-      },
+      // person: {
+      //   personsAndTeams:
+      //     context.item.column_values.people__1?.persons_and_teams || [],
+      // },
     }),
     // Allow extra supplier audits to be created (no skip condition)
     (context) => false,
