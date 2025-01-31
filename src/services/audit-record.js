@@ -1,7 +1,7 @@
 import logger from "../helpers/logger.js";
 import { AuditTrailStorage } from "../storage/audit-trail-storage.js";
 import { loadTemplate } from "../helpers/templates.js";
-import { SanitizeData } from "./sanitize-data";
+import { SanitizeData } from "./sanitize-data.js";
 
 const TAG = "audit-record";
 
