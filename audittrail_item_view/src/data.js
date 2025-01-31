@@ -64,7 +64,7 @@ const getStorage = async (key, sessionToken) => {
 
 const getDecodedStorage = async (key, sessionToken) => {
   try {
-    const response = await fetch(`}/audit/trail?itemKey=${key}`, {
+    const response = await fetch(`/audit/trail?itemKey=${key}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
