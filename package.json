@@ -1,5 +1,5 @@
 {
-  "name": "eurotas-qms",
+  "name": "eurotas-sqm",
   "version": "0.0.1",
   "license": "Proprietary",
   "type": "module",
@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run server",
     "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:expose\"",
-    "dev:server": "nodemon --inspect=8081 ./src/app.js",
+    "dev:server": "nodemon --inspect=8080 ./src/app.js",
     "dev:expose": "mtunnel -p 8080",
     "dev:stop": "kill-port 8080",
     "server": "NODE_ENV=production node ./src/app.js",

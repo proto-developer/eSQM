@@ -1,6 +1,7 @@
 import logger from "../helpers/logger.js";
 import { AuditTrailStorage } from "../storage/audit-trail-storage.js";
 import { loadTemplate } from "../helpers/templates.js";
+import { SanitizeData } from "./sanitize-data";
 
 const TAG = "audit-record";
 
@@ -9,7 +10,13 @@ const tableTemplate = loadTemplate("src/templates/audit-record-table.hbs");
 
 const generateAuditRecordTable = (item) => {
   const rows = item.raw_data.column_values;
-  return tableTemplate(rows);
+  const sanitizedRows = rows.map((row) => {
+    if (row.text) {
+      row.text = SanitizeData(row.text); // Sanitize text
+    }
+    return row; // Return the updated row
+  });
+  return tableTemplate(sanitizedRows);
 };
 
 const generateAuditRecordForItem = (item, esignRecord) => {
