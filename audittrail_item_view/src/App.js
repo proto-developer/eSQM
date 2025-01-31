@@ -104,9 +104,9 @@ class App extends React.Component {
     const data = await getAuditTrailItem(key, sessionToken);
     // console.log("downloadItem", data);
     const { value } = data;
-    const doc = value.htmlDocument;
+    // const doc = value.htmlDocument;
     const link = document.createElement("a");
-    link.href = `data:text/html;charset=utf-8,${encodeURIComponent(doc)}`;
+    link.href = `data:text/html;charset=utf-8,${encodeURIComponent(value)}`;
     link.download = "audit_trail_item.html";
     link.click();
   };
