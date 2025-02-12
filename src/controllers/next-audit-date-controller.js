@@ -22,24 +22,34 @@ export const calculateNextAuditDate = async (req, res) => {
   const lastAuditDate = currentItem.column_values.date6__1.text;
   const auditFrequencyInMonths = currentItem.column_values.numbers7__1.text;
 
-  // Calculate the "Next Audit Date"
-  const nextAuditDate = calNextAuditDate(lastAuditDate, auditFrequencyInMonths);
-
-  // Update the "Next Audit Date" column's Value
-  try {
-    await changeColumnValue(
-      req.monday,
-      boardId,
-      itemId,
-      "date_mkkbt8f2",
-      nextAuditDate
+  // Condition to check if both lastAudit Date and Audit Frequency have values
+  if (!lastAuditDate || !auditFrequencyInMonths) {
+    return res
+      .status(400)
+      .send({ message: "Last Audit Date or Audit Frequency is missing" });
+  } else {
+    // Calculate the "Next Audit Date"
+    const nextAuditDate = calNextAuditDate(
+      lastAuditDate,
+      auditFrequencyInMonths
     );
 
-    return res.status(200).send({});
-  } catch (err) {
-    logger.error("Couldn't update the 'Next Audit Date' column", TAG, {
-      error: err,
-    });
-    return res.status(500).send({ message: "internal server error" });
+    // Update the "Next Audit Date" column's Value
+    try {
+      await changeColumnValue(
+        req.monday,
+        boardId,
+        itemId,
+        "date_mkkbt8f2",
+        nextAuditDate
+      );
+
+      return res.status(200).send({});
+    } catch (err) {
+      logger.error("Couldn't update the 'Next Audit Date' column", TAG, {
+        error: err,
+      });
+      return res.status(500).send({ message: "internal server error" });
+    }
   }
 };
