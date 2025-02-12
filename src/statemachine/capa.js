@@ -228,7 +228,7 @@ const capaTransitions = {
         //     'CAPA will be automatically submitted when parent is marked as "CAPA Plan completed"',
         //   userAssignedInField([roleFields.originator, roleFields.implementor])
         // ),
-        userAssignedInField([roleFields.originator]),
+        // userAssignedInField([roleFields.originator]),
       ],
       effects: [
         sendNotification(
