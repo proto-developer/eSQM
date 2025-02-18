@@ -8,7 +8,7 @@ import { MondayContextProvider } from "./utils/MondayContext";
 import { FeedbackWidget } from "./components/feedbackWidget/FeedbackWidget";
 
 // Shown in the feedback modal
-const documentationLink = "https://euro-tas.eu/";
+const documentationLink = "https://euro-tas.com/";
 const supportEmail = "support@euro-tas.com";
 
 const root = createRoot(document.getElementById("root"));

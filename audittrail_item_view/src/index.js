@@ -1,5 +1,5 @@
 import React from "react";
-import {createRoot} from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import { FeedbackWidget } from "./FeedbackWidget";
 import { SubscriptionChecker } from "./Subscription";
@@ -15,9 +15,8 @@ Sentry.init({
 */
 
 // Shown in the feedback modal
-const documentationLink = "https://euro-tas.eu/";
+const documentationLink = "https://euro-tas.com/";
 const supportEmail = "support@euro-tas.com";
-
 
 const root = createRoot(document.getElementById("root"));
 root.render(
@@ -25,7 +24,10 @@ root.render(
     <SubscriptionChecker>
       <App />
     </SubscriptionChecker>
-    <FeedbackWidget documentationLink={documentationLink} supportEmail={supportEmail} />
+    <FeedbackWidget
+      documentationLink={documentationLink}
+      supportEmail={supportEmail}
+    />
   </>
 );
 
