@@ -35,3 +35,49 @@ export const getMirrorColumnStatus = async (mondayClient, itemId) => {
     return [];
   }
 };
+
+export const getAuditItemValues = async (mondayClient, itemId) => {
+  const query = `
+        query {
+            items(ids:[${itemId}]) {
+                column_values(ids: ["connect_boards__1"]) {
+                  type
+                  ... on BoardRelationValue {
+                    linked_items {
+                      column_values(ids: ["status__1", "date9__1", "item_id0__1"]) {
+                        ... on StatusValue {
+                          id
+                          updated_at
+                          text
+                        }
+                        ... on DateValue {
+                          id
+                          text
+                        }
+                        ... on TextValue {
+                          id
+                          text
+                        }
+                      }
+                    }
+                  }
+                }
+            }
+        }
+    `;
+
+  try {
+    const res = await mondayClient.api(query);
+
+    // Linked Items
+    const linkedItems = res?.data?.items[0]?.column_values[0]?.linked_items;
+
+    // Status Column Values
+    const statusColValues = linkedItems?.map((item) => item.column_values);
+
+    return statusColValues || [];
+  } catch (err) {
+    console.log("Debug Err", err);
+    return [];
+  }
+};
