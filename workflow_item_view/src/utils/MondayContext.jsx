@@ -16,7 +16,7 @@ export const MondayContextProvider = ({ children }) => {
       setSessionToken(res.data);
     });
     monday.execute("valueCreatedForUser");
-  }, [monday]);
+  }, []);
 
   return (
     <MondayContext.Provider
