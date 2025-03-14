@@ -6,6 +6,7 @@ import App from "./App";
 import LoadingProvider from "./utils/LoadingContext";
 import { MondayContextProvider } from "./utils/MondayContext";
 import { FeedbackWidget } from "./components/feedbackWidget/FeedbackWidget";
+import { SubscriptionChecker } from "./Subscription";
 
 // Shown in the feedback modal
 const documentationLink =
@@ -16,7 +17,9 @@ const root = createRoot(document.getElementById("root"));
 root.render(
   <MondayContextProvider>
     <LoadingProvider>
-      <App />
+      <SubscriptionChecker>
+        <App />
+      </SubscriptionChecker>
       <FeedbackWidget
         documentationLink={documentationLink}
         supportEmail={supportEmail}
