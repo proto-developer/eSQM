@@ -1,5 +1,6 @@
 import ConnectionStorage from "../storage/monday-oauth-storage.js";
 import logger from "../helpers/logger.js";
+import { sendInstallationLucieQMSMail } from "./sendmail.js";
 
 const TAG = "connection_model_service";
 
@@ -110,6 +111,32 @@ export class ConnectionModelService {
         accountId,
         error: err.message,
       });
+    }
+  }
+
+  /**
+   * Send Email on App Installation.
+   * @returns {Promise<void>}
+   */
+
+  async sendEmailOnAppInstallation(body) {
+    try {
+      const response = await sendInstallationLucieQMSMail(body);
+
+      logger.info(
+        "appCustomers",
+        "Email sent successfully on app installation " +
+          JSON.stringify(response)
+      );
+
+      if (!response) {
+        throw new Error("Failed to send email");
+      }
+    } catch (err) {
+      logger.error(
+        "appCustomers",
+        "Error on install " + JSON.stringify(err.stack) + " "
+      );
     }
   }
 }

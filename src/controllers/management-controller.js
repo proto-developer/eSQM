@@ -17,6 +17,15 @@ export const deleteAccountAuth = async (req, resp) => {
     logger.info("Deleted account auth", TAG, { accountId });
     resp.status(200).send();
   }
+
+  if (webhookBody.type === "install") {
+    await connectionService.sendEmailOnAppInstallation(webhookBody.data);
+    logger.info("Sent email on app installation", TAG, {
+      accountId,
+      userId: webhookBody.data.user_id,
+    });
+    resp.status(200).send();
+  }
 };
 
 export const setAccountFeatureFlag = async (req, resp) => {

@@ -38,6 +38,7 @@
     "cors": "^2.8.5",
     "cross-port-killer": "^1.4.0",
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "express": "^4.21.0",
     "handlebars": "^4.7.8",
     "http-proxy-middleware": "^3.0.2",
@@ -45,6 +46,7 @@
     "lodash": "^4.17.21",
     "monday-sdk-js": "^0.5.5",
     "node-fetch": "^3.3.2",
+    "nodemailer": "^7.0.3",
     "simple-oauth2": "^5.1.0"
   },
   "devDependencies": {
