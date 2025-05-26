@@ -20,7 +20,7 @@ export const sendInstallationLucieQMSMail = async (obj) => {
   var mailOptions = {
     from: "contact@euro-tas.com",
     to: obj.user_email,
-    // bcc: ["mail1", "mail2"],
+    bcc: ["contact@euro-tas.com"],
     subject: "Welcome to LUCIE SQM",
     // attachments: [
     //   {
