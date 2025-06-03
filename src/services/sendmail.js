@@ -17,16 +17,18 @@ var transporter = createTransport({
 });
 
 export const sendInstallationLucieQMSMail = async (obj) => {
+  const welcome_pdf_path = join(__dirname, "../public/Lucie SQM Workflow.pdf");
+
   var mailOptions = {
     from: "contact@euro-tas.com",
     to: obj.user_email,
     bcc: ["contact@euro-tas.com"],
     subject: "Welcome to LUCIE SQM",
-    // attachments: [
-    //   {
-    //     path: "./public/Lucie QMS Workflow_240723_161230.pdf",
-    //   },
-    // ],
+    attachments: [
+      {
+        path: welcome_pdf_path,
+      },
+    ],
   };
 
   let mail_data = {
